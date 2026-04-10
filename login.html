@@ -3,273 +3,204 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Secure Auth Portal</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Login</title>
 
 <style>
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* ✅ Simple Background */
 body {
+    background-color: #ffffff;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background: #f4f6f9;
-    color: #333;
+    height: 100vh;
 }
 
-/* 💎 Card */
-.auth-card {
-    background: #ffffff;
-    padding: 2.5rem;
-    border-radius: 12px;
+/* Main Container */
+.container {
     width: 100%;
-    max-width: 420px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    transition: 0.3s;
+    max-width: 360px;
+    text-align: center;
 }
 
-.auth-card:hover {
-    transform: translateY(-3px);
+/* Logo */
+.logo {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+/* Card */
+.card {
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: left;
 }
 
 /* Title */
-.auth-card h2 {
+h2 {
     text-align: center;
-    margin-bottom: 10px;
-}
-
-.auth-card p {
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 0.9rem;
-    color: #666;
+    margin-bottom: 20px;
+    font-weight: 500;
 }
 
 /* Inputs */
 .input-group {
-    margin-bottom: 1.3rem;
-    position: relative;
-}
-
-.input-group label {
-    font-size: 0.85rem;
-    color: #555;
-}
-
-.input-group input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    outline: none;
-}
-
-.input-group input:focus {
-    border-color: #6c63ff;
-    box-shadow: 0 0 5px rgba(108,99,255,0.3);
-}
-
-/* Hide Name */
-#nameGroup {
-    display: none;
-}
-
-/* Toggle Password */
-.toggle-btn {
-    position: absolute;
-    right: 10px;
-    top: 36px;
-    background: none;
-    border: none;
-    color: #555;
-    cursor: pointer;
-}
-
-/* Forgot Password */
-.forgot {
-    text-align: right;
     margin-bottom: 15px;
 }
 
-.forgot a {
-    font-size: 0.8rem;
-    color: #6c63ff;
-    text-decoration: none;
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    font-size: 14px;
 }
 
-.forgot a:hover {
-    text-decoration: underline;
+input:focus {
+    outline: none;
+    border-color: black;
 }
 
 /* Button */
-.submit-btn {
+button {
     width: 100%;
     padding: 12px;
-    border-radius: 8px;
-    border: none;
-    background: #6c63ff;
+    background: black;
     color: white;
-    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
     cursor: pointer;
-    transition: 0.3s;
+    margin-top: 10px;
 }
 
-.submit-btn:hover {
-    background: #5548d9;
+button:hover {
+    background: #222;
 }
 
-/* Bottom */
-.bottom-text {
-    text-align: center;
+/* Links */
+.switch {
     margin-top: 15px;
-    font-size: 0.85rem;
-}
-
-.bottom-text a {
-    font-weight: 600;
-    cursor: pointer;
-    color: #6c63ff;
-}
-
-/* Footer */
-.footer {
-    margin-top: 20px;
-    font-size: 0.85rem;
     text-align: center;
-    color: #777;
+    font-size: 14px;
+}
+
+.switch a {
+    color: black;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Hidden Name */
+#nameGroup {
+    display: none;
 }
 </style>
 </head>
 
 <body>
 
-<div class="auth-card">
-    <h2 id="formTitle">Welcome Back</h2>
-    <p id="formSubtitle">Login to continue</p>
+<div class="container">
+    <div class="logo">Create An Account</div>
 
-    <form id="authForm">
+    <div class="card">
+        <h2 id="title">Log in</h2>
 
-        <div class="input-group" id="nameGroup">
-            <label>Full Name</label>
-            <input type="text" id="fullname">
-        </div>
+        <form id="authForm">
 
-        <div class="input-group">
-            <label>Email</label>
-            <input type="email" id="email" required>
-        </div>
+            <div id="nameGroup" class="input-group">
+                <input type="text" id="fullname" placeholder="Full name">
+            </div>
 
-        <div class="input-group">
-            <label>Password</label>
-            <input type="password" id="password" required>
-            <button type="button" class="toggle-btn" id="togglePassword">Show</button>
-        </div>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email" required>
+            </div>
 
-        <div class="forgot">
-            <a href="#" onclick="forgotPassword()">Forgot Password?</a>
-        </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
 
-        <button type="submit" class="submit-btn" id="submitBtn">Sign In</button>
+            <button type="submit" id="submitBtn">Continue</button>
 
-        <p class="bottom-text">
-            <span id="toggleText">New user?</span> 
-            <a id="toggleMode">Create account</a>
-        </p>
+            <div class="switch">
+                <span id="switchText">Don't have an account?</span>
+                <a id="toggleMode">Sign up</a>
+            </div>
 
-    </form>
+        </form>
+    </div>
 </div>
-
-<footer class="footer">
-     Made by Aditya Pratap Singh | Built for learning 📊
-</footer>
 
 <script>
 const form = document.getElementById('authForm');
+const toggleMode = document.getElementById('toggleMode');
+const title = document.getElementById('title');
 const nameGroup = document.getElementById('nameGroup');
-const toggleModeBtn = document.getElementById('toggleMode');
-const formTitle = document.getElementById('formTitle');
-const formSubtitle = document.getElementById('formSubtitle');
-const toggleText = document.getElementById('toggleText');
+const switchText = document.getElementById('switchText');
 const submitBtn = document.getElementById('submitBtn');
 
-let isLoginMode = true;
+let isLogin = true;
 
-// Toggle Mode
-toggleModeBtn.onclick = () => {
-    isLoginMode = !isLoginMode;
+// Toggle Login / Signup
+toggleMode.addEventListener('click', () => {
+    isLogin = !isLogin;
 
-    if (isLoginMode) {
+    if (isLogin) {
+        title.textContent = "Log in";
         nameGroup.style.display = "none";
-        formTitle.textContent = "Welcome Back";
-        formSubtitle.textContent = "Login to continue";
-        submitBtn.textContent = "Sign In";
-        toggleText.textContent = "New user?";
-        toggleModeBtn.textContent = "Create account";
+        switchText.textContent = "Don't have an account?";
+        toggleMode.textContent = "Sign up";
     } else {
+        title.textContent = "Sign up";
         nameGroup.style.display = "block";
-        formTitle.textContent = "Create Account";
-        formSubtitle.textContent = "Join us today";
-        submitBtn.textContent = "Sign Up";
-        toggleText.textContent = "Already registered?";
-        toggleModeBtn.textContent = "Sign In";
+        switchText.textContent = "Already have an account?";
+        toggleMode.textContent = "Log in";
     }
-};
+});
 
-// Toggle Password
-document.getElementById('togglePassword').onclick = function() {
-    const pass = document.getElementById('password');
-    pass.type = pass.type === "password" ? "text" : "password";
-};
-
-// Forgot Password (UI only)
-function forgotPassword() {
-    const email = document.getElementById('email').value;
-
-    if (!email) {
-        alert("Please enter your email first!");
-    } else {
-        alert("Password reset link sent to " + email);
-    }
-}
-
-// API Call
+// API Call (Same Backend)
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const endpoint = isLoginMode ? '/login' : '/signup';
+    const endpoint = isLogin 
+        ? 'http://127.0.0.1:5000/login'
+        : 'http://127.0.0.1:5000/signup';
 
-    const payload = isLoginMode
+    const payload = isLogin
         ? {
-            email: document.getElementById('email').value,
-            password: document.getElementById('password').value
-          }
+            email: email.value,
+            password: password.value
+        }
         : {
-            fullname: document.getElementById('fullname').value,
-            email: document.getElementById('email').value,
-            password: document.getElementById('password').value
-          };
+            fullname: fullname.value,
+            email: email.value,
+            password: password.value
+        };
 
     try {
         const res = await fetch(endpoint, {
             method: 'POST',
-            headers: {'Content-Type':'application/json'},
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(payload)
         });
 
         const data = await res.json();
-        alert(data.message);
 
-    } catch {
-        alert("Server error. Check Flask is running.");
+        if (res.ok) {
+            alert("✅ " + data.message);
+        } else {
+            alert("❌ " + data.message);
+        }
+
+    } catch (err) {
+        alert("Server not running");
     }
 });
 </script>
