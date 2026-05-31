@@ -53,6 +53,7 @@ h2 {
 /* Inputs */
 .input-group {
     margin-bottom: 15px;
+    position: relative;
 }
 
 input {
@@ -98,9 +99,73 @@ button:hover {
     cursor: pointer;
 }
 
+.forgot-password {
+    text-align: right;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.forgot-password a {
+    color: #666;
+    font-size: 12px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.forgot-password a:hover {
+    color: black;
+    text-decoration: underline;
+}
+
 /* Hidden Name */
 #nameGroup {
     display: none;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: white;
+    margin: 20% auto;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 400px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+}
+
+.close:hover {
+    color: black;
+}
+
+.modal h3 {
+    margin-bottom: 20px;
+}
+
+.modal input {
+    margin-bottom: 20px;
+}
+
+.modal button {
+    margin-top: 0;
 }
 </style>
 </head>
@@ -114,7 +179,6 @@ button:hover {
         <h2 id="title">Log in</h2>
 
         <form id="authForm">
-
             <div id="nameGroup" class="input-group">
                 <input type="text" id="fullname" placeholder="Full name">
             </div>
@@ -127,14 +191,28 @@ button:hover {
                 <input type="password" id="password" placeholder="Password" required>
             </div>
 
+            <div class="forgot-password">
+                <a onclick="openForgotModal()">Forgot password?</a>
+            </div>
+
             <button type="submit" id="submitBtn">Continue</button>
 
             <div class="switch">
                 <span id="switchText">Don't have an account?</span>
                 <a id="toggleMode">Sign up</a>
             </div>
-
         </form>
+    </div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div id="forgotModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeForgotModal()">&times;</span>
+        <h3>Reset Password</h3>
+        <p style="margin-bottom: 15px; font-size: 14px; color: #666;">Enter your email to receive reset instructions</p>
+        <input type="email" id="resetEmail" placeholder="Email address" style="width: 100%; padding: 12px; border: 1px solid #d9d9d9; border-radius: 6px;">
+        <button onclick="sendResetLink()" style="margin-top: 10px;">Send Reset Link</button>
     </div>
 </div>
 
@@ -147,6 +225,47 @@ const switchText = document.getElementById('switchText');
 const submitBtn = document.getElementById('submitBtn');
 
 let isLogin = true;
+
+// Forgot password modal functions
+function openForgotModal() {
+    document.getElementById('forgotModal').style.display = 'block';
+}
+
+function closeForgotModal() {
+    document.getElementById('forgotModal').style.display = 'none';
+    document.getElementById('resetEmail').value = '';
+}
+
+async function sendResetLink() {
+    const email = document.getElementById('resetEmail').value;
+    
+    if (!email) {
+        alert('Please enter your email address');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/forgot-password', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ email: email })
+        });
+        
+        const data = await response.json();
+        alert(data.message);
+        closeForgotModal();
+    } catch (err) {
+        alert('Server error. Please try again.');
+    }
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('forgotModal');
+    if (event.target === modal) {
+        closeForgotModal();
+    }
+}
 
 // Toggle Login / Signup
 toggleMode.addEventListener('click', () => {
@@ -165,13 +284,13 @@ toggleMode.addEventListener('click', () => {
     }
 });
 
-// API Call (Same Backend)
+// API Call
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const endpoint = isLogin 
-        ? 'http://127.0.0.1:5000/login'
-        : 'http://127.0.0.1:5000/signup';
+        ? '/login'
+        : '/signup';
 
     const payload = isLogin
         ? {
@@ -184,6 +303,10 @@ form.addEventListener('submit', async (e) => {
             password: password.value
         };
 
+    // Disable button
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Processing...';
+
     try {
         const res = await fetch(endpoint, {
             method: 'POST',
@@ -194,13 +317,33 @@ form.addEventListener('submit', async (e) => {
         const data = await res.json();
 
         if (res.ok) {
-            alert("✅ " + data.message);
+            alert(data.message);
+            
+            if (!isLogin) {
+                // After signup, switch to login
+                setTimeout(() => {
+                    isLogin = true;
+                    title.textContent = "Log in";
+                    nameGroup.style.display = "none";
+                    switchText.textContent = "Don't have an account?";
+                    toggleMode.textContent = "Sign up";
+                    document.getElementById('email').value = '';
+                    document.getElementById('password').value = '';
+                    alert("Account created! Please login");
+                }, 1000);
+            } else {
+                // After login, redirect to dashboard
+                window.location.href = '/dashboard';
+            }
         } else {
-            alert("❌ " + data.message);
+            alert(data.message);
         }
-
     } catch (err) {
         alert("Server not running");
+        console.error(err);
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = isLogin ? 'Continue' : 'Sign Up';
     }
 });
 </script>
