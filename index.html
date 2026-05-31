@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+.card {
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: left;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+input:focus {
+    outline: none;
+    border-color: black;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #222;
+}
+
+.switch {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.switch a {
+    color: black;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.forgot-password {
+    text-align: right;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.forgot-password a {
+    color: #666;
+    font-size: 12px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#nameGroup {
+    display: none;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="logo">Create An Account</div>
+    <div class="card">
+        <h2 id="title">Log in</h2>
+        <form id="authForm">
+            <div id="nameGroup" class="input-group">
+                <input type="text" id="fullname" placeholder="Full name">
+            </div>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            <div class="forgot-password">
+                <a onclick="alert('Demo: Reset link would be sent')">Forgot password?</a>
+            </div>
+            <button type="submit" id="submitBtn">Continue</button>
+            <div class="switch">
+                <span id="switchText">Don't have an account?</span>
+                <a id="toggleMode">Sign up</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+const form = document.getElementById('authForm');
+const toggleMode = document.getElementById('toggleMode');
+const title = document.getElementById('title');
+const nameGroup = document.getElementById('nameGroup');
+const switchText = document.getElementById('switchText');
+let isLogin = true;
+
+toggleMode.addEventListener('click', () => {
+    isLogin = !isLogin;
+    if (isLogin) {
+        title.textContent = "Log in";
+        nameGroup.style.display = "none";
+        switchText.textContent = "Don't have an account?";
+        toggleMode.textContent = "Sign up";
+    } else {
+        title.textContent = "Sign up";
+        nameGroup.style.display = "block";
+        switchText.textContent = "Already have an account?";
+        toggleMode.textContent = "Log in";
+    }
+});
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert(isLogin ? "Demo: Login would process here" : "Demo: Signup would process here");
+});
+</script>
+</body>
+</html>
