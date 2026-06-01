@@ -47,5 +47,19 @@ Backend: Flask (Python)
 Authentication: JWT
 
 Security: Werkzeug
+Technology Stack
+Backend: Flask (Python)
 
-Frontend: HTML5, CSS3, JavaScript 
+Database: SQLite
+
+Authentication: JWT
+
+Security: Werkzeug
+
+Frontend: HTML5, CSS3, JavaScript
+
+License
+MIT
+
+
+
