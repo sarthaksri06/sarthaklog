@@ -27,10 +27,12 @@ Password reset functionality
 Session management
 
 Project Structure
-text
-├── app.py              # Backend server
+SRTKLOGINDASH/
+├── app.py              # Main application
+├── database.py         # Database operations
+├── requirements.txt    # Python dependencies
 ├── templates/          
-│   ├── login.html      # Authentication pages
+│   ├── login.html      # Login and signup page
 │   └── dashboard.html  # User dashboard
 └── static/
     └── style.css       # Stylesheet
@@ -41,12 +43,18 @@ Endpoint	Method	Description
 /logout	POST	End session
 /forgot-password	POST	Request password reset
 /api/dashboard	GET	Get user data
-Technology Stack
-Backend: Flask (Python)
 
-Authentication: JWT
+Database
+The application uses SQLite. The database file users.db is created automatically on first run.
+Database schema:
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    fullname TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-Security: Werkzeug
 Technology Stack
 Backend: Flask (Python)
 
@@ -60,6 +68,8 @@ Frontend: HTML5, CSS3, JavaScript
 
 License
 MIT
+
+
 
 
 
