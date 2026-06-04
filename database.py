@@ -26,7 +26,7 @@ def init_db():
     conn.commit()
     conn.close()
     print("Database initialized successfully")
-
+#creating user
 def create_user(fullname, email, password):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -100,5 +100,6 @@ def delete_user(user_id):
     conn.commit()
     affected_rows = cursor.rowcount
     conn.close()
+
     
     return affected_rows > 0
